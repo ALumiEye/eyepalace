@@ -1,0 +1,12 @@
+{
+  "name": "Eye Palace – Thủ Thành",
+  "short_name": "Eye Palace",
+  "description": "Game thủ thành: dựng tháp canh bảo vệ cung điện khỏi quái vật.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0f1220",
+  "theme_color": "#1a1f36",
+  "lang": "vi",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

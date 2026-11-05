@@ -46,6 +46,12 @@
   kính mờ (`backdrop-filter`), bo góc nút/thẻ, viền phát sáng.
 - Biểu tượng cảm xúc (emoji) trên HUD, menu, nút, tiêu đề. Ký hiệu chữ đơn giản `▶` và `⛶` được phép.
 
+## Ngoại lệ riêng EyeRim (đồng bộ với ../AGENTS.md)
+
+EyeRim giữ UI sci-fi TIDEBREAKER được người dùng duyệt: nền tối, cyan, màu cảnh báo, gradient/glow, bo góc, bố cục menu/HUD và chuyển động. Không đổi toàn bộ nút/thẻ sang kem/tím/cam. Nhận diện ALumiEye là lớp bổ sung gọn: logo gốc góc trên trái mọi màn hình, tên EyeRim tím/cam trên nền kem cùng Lumi đúng tỷ lệ, favicon mặt Lumi. Nhận diện tạo thành **vỏ màn hình điều khiển vuông góc đủ bốn cạnh**: nền kem, viền tím đậm, nhấn cam, logo/tên ở cạnh trên và nhãn máy/khe trang trí/đèn trạng thái ở cạnh dưới. Khung nằm ngoài canvas, không che HUD/cảnh báo; giữ TIDEBREAKER là tiêu đề chính. Logo EyeRim dùng nguyên ảnh đúng tỷ lệ, không thêm vòng viền hoặc `border-radius` cắt mất đỉnh tam giác; ngoại lệ này không đổi cách bọc logo của các game khác. Tài nguyên nhận diện phải có trong cả bản Pages và HTML offline. Ngoại lệ này **không áp dụng cho Eye Palace**.
+
+Gallery public của EyeRim chỉ hiển thị tên Vanguard/Tempest; không đưa tên Striker Eureka/Gipsy Danger hay ảnh tham chiếu ngoài repo lên gallery. Giữ nguyên tạo hình nhân vật.
+
 ## Riêng Eye Palace
 
 - **Chiến trường** (vẽ trên canvas, `js/render.js`) giữ tông **tối, vây hãm** theo yêu cầu của người dùng:

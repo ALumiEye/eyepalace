@@ -1,0 +1,16 @@
+{
+  "name": "eyepalace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Eye Palace – Thủ Thành: game thủ thành trên trình duyệt. By ALumiEye.",
+  "scripts": {
+    "test": "node tools/style-check.js && node tools/test.js",
+    "build": "node tools/build.js",
+    "check:browser": "node tools/browser-check.js",
+    "check:audio": "node tools/audio-check.js",
+    "check": "npm test && npm run build && npm run check:browser"
+  },
+  "devDependencies": {
+    "playwright-core": "1.64.1"
+  }
+}

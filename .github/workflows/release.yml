@@ -1,0 +1,38 @@
+name: Release
+
+# Push tag dạng v1.2.3: kiểm thử, build rồi tạo GitHub Release kèm eyepalace.html (chơi offline, một file).
+# Ghi chú lấy từ docs/releases/<tag>.md nếu có, không thì GitHub tự sinh.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Kiểm thử và build
+        env:
+          GAME_VERSION: ${{ github.ref_name }}
+        run: npm run check
+      - name: Tạo Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          cd dist
+          sha256sum eyepalace.html > SHA256SUMS.txt
+          notes="../docs/releases/$TAG.md"
+          if [ -f "$notes" ]; then
+            gh release create "$TAG" eyepalace.html SHA256SUMS.txt --title "Eye Palace $TAG" --notes-file "$notes" --verify-tag
+          else
+            gh release create "$TAG" eyepalace.html SHA256SUMS.txt --title "Eye Palace $TAG" --generate-notes --verify-tag
+          fi

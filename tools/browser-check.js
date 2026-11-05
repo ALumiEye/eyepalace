@@ -1,14 +1,16 @@
-// Kiểm tra giao diện thật bằng Chrome; dùng thư viện sẵn có, không cài phụ thuộc.
+// Kiểm tra giao diện thật bằng Chrome trên đúng bản build cho Pages (dist/) và bản một file: npm run check:browser
 'use strict';
 const fs = require('fs'), path = require('path'), http = require('http');
-const { chromium } = require('../../eyetank/node_modules/playwright-core');
+const { chromium } = require('playwright-core');
 const root = path.resolve(__dirname, '..');
+const { version } = require('./build').build();
+const site = path.join(root, 'dist');
 const check = (ok, label) => { if (!ok) throw new Error(label); console.log('✓ ' + label); };
 (async () => {
   const server = http.createServer((req, res) => {
     const name = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-    const file = path.resolve(root, '.' + (name === '/' ? '/index.html' : name));
-    if (!file.startsWith(root + path.sep)) { res.writeHead(403).end(); return; }
+    const file = path.resolve(site, '.' + (name === '/' ? '/index.html' : name));
+    if (!file.startsWith(site + path.sep)) { res.writeHead(403).end(); return; }
     fs.readFile(file, (err, data) => {
       if (err) { res.writeHead(404).end(); return; }
       res.setHeader('Content-Type', ({'.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.png':'image/png', '.svg':'image/svg+xml', '.webmanifest':'application/manifest+json'})[path.extname(file)] || 'application/octet-stream');
@@ -38,6 +40,7 @@ const check = (ok, label) => { if (!ok) throw new Error(label); console.log('✓
     check(lumiRatioOK, 'Lumi được vẽ đúng tỷ lệ ảnh gốc, không kéo dọc/ngang');
     await page.waitForFunction(() => document.getElementById('brand').naturalWidth > 0);
     check(await page.evaluate(() => { const b = document.getElementById('brand'), r = b.getBoundingClientRect(); return b.alt === 'ALumiEye' && /alumieye\.png$/.test(b.src) && r.left < 20 && r.top < 20 && getComputedStyle(b).zIndex >= 20; }), 'Logo ALumiEye hiện ở góc trên trái, nằm trên menu');
+    check(await page.locator('#game-version').innerText() === version, 'Menu hiển thị phiên bản build: ' + version);
     await page.screenshot({ path: path.join(root, 'docs/siege-menu.png') });
     await page.click('#btn-play');
     if (await page.locator('#overlay-tut').isVisible()) await page.click('#btn-tut-skip');
@@ -99,7 +102,7 @@ const check = (ok, label) => { if (!ok) throw new Error(label); console.log('✓
     await page.waitForFunction(()=>!!App.editor);
     await page.evaluate(()=>{App.editor.pts=[[0,2],[6,2],[6,8],[12,8],[12,3],[18,3]];App.renderer.drawEditor(App.editor,null);});
     await page.screenshot({path:path.join(root,'docs/siege-editor.png')});
-    await page.goto(url+'/dist/eyepalace.html');
+    await page.goto(url+'/eyepalace.html');
     await page.waitForFunction(()=>typeof App!=='undefined'&&App.renderer&&App.renderer.lumi.naturalWidth>0);
     check(await page.evaluate(()=>App.renderer.lumi.src.startsWith('data:image/png')), 'Bản một file đã nhúng Lumi');
     check(await page.evaluate(()=>{const b=document.getElementById('brand');return b.src.startsWith('data:image/png')&&b.naturalWidth>0;}), 'Bản một file đã nhúng logo ALumiEye');

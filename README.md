@@ -4,10 +4,15 @@
 
 Game thủ thành (tower defense) chạy trên trình duyệt. HTML5 Canvas + JavaScript thuần, không cần cài đặt hay build.
 
+## Chơi ngay
+- **Trên trình duyệt:** https://alumieye.github.io/eyepalace/ — cài được như ứng dụng và chơi offline.
+- **Offline, không cần cài:** tải `eyepalace.html` ở [bản phát hành mới nhất](https://github.com/ALumiEye/eyepalace/releases/latest)
+  rồi bấm đúp để mở. Cả game nằm trong một file, dễ gửi cho người khác.
+- **Từ mã nguồn:** mở `index.html` bằng trình duyệt, hoặc chạy server tĩnh `python3 -m http.server 8765`
+  rồi vào http://127.0.0.1:8765.
+- Phiên bản đang chạy hiện ở cuối menu chính.
+
 ## Cách chơi
-- Mở `index.html` bằng trình duyệt, hoặc mở bản gộp 1 file `dist/eyepalace.html` (dễ gửi cho người khác).
-- Hoặc chạy server tĩnh trong thư mục này: `python3 -m http.server 8765` rồi vào http://127.0.0.1:8765
-  – khi chạy qua http, trình duyệt cho phép **cài như ứng dụng** và chơi **offline**.
 - Chọn bản đồ, độ khó (và thử thách nếu muốn) → **Bắt đầu**. Xây tháp trên ô cỏ, nâng cấp, gọi đợt quái.
   Trụ qua 30 đợt để thắng (sau đó có thể chơi vô tận). Hoặc chơi **📅 Thử thách hôm nay** – đổi mỗi ngày.
 - Liên kết nhanh: `index.html?play=0..7` (bản đồ cố định), `?play=8&seed=N` (bản đồ ngẫu nhiên),
@@ -65,6 +70,28 @@ Game thủ thành (tower defense) chạy trên trình duyệt. HTML5 Canvas + Ja
 | `tools/browser-check.js` | Chơi thử trên Chrome: thao tác, nhạc thích ứng, mobile, bản một file |
 | `tools/sim.js` | Bot mô phỏng cân bằng: `node tools/sim.js <map 0-8> <diff> <số ván>` (`MODS=…`, `SEED=…`, `CUSTOM=<mã>` với map 9) |
 | `tools/perf.js` | Đo hiệu năng tình huống nặng (40 tháp, ~300 quái, x4): `node tools/perf.js [map]` |
-| `tools/build.js` | Gộp thành 1 file: `node tools/build.js` → `dist/eyepalace.html` |
+| `tools/build.js` | Build: `npm run build` → `dist/` (Pages) và `dist/eyepalace.html` (bản một file cho Release) |
 
 Khi sửa JS/CSS, tăng số `?v=` trong `index.html` để trình duyệt tải bản mới.
+
+## Build và phát hành
+
+Cần Node.js 22+; Chrome chỉ dùng cho kiểm thử trình duyệt. Game không có dependency; `npm ci` chỉ cài `playwright-core` để kiểm thử.
+
+```bash
+npm ci
+npm test               # style-check + logic
+npm run build          # dist/ cho Pages + dist/eyepalace.html cho Release
+npm run check:browser  # build rồi chơi thật trên Chrome, cả bản Pages lẫn bản một file
+npm run check          # tất cả, như CI
+```
+
+| Workflow | Khi nào | Làm gì |
+|---|---|---|
+| `ci.yml` | PR, push `main` | `npm run check` |
+| `pages.yml` | push `main` | như trên, rồi deploy `dist/` lên Pages (Settings → Pages → Source: **GitHub Actions**) |
+| `release.yml` | push tag `vX.Y.Z` | như trên, rồi tạo Release kèm `eyepalace.html` và `SHA256SUMS.txt` |
+
+Phát hành bản mới: viết ghi chú ở `docs/releases/vX.Y.Z.md`, tăng `version` trong `package.json`, commit, rồi
+`git tag vX.Y.Z && git push origin vX.Y.Z`. `dist/` là đầu ra build, không commit. Biến `GAME_VERSION` đặt chữ phiên bản
+hiển thị (workflow tự đặt).

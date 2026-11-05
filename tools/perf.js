@@ -4,7 +4,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const ctx = { console, Math, Set, Map, Object, Array, JSON, performance };
 vm.createContext(ctx);
-for (const f of ['config', 'maps', 'entities', 'waves', 'game']) vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'js', f + '.js'), 'utf8'), ctx, { filename: f + '.js' });
+for (const f of ['config', 'maps', 'entities', 'waves', 'game']) vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'src', f + '.js'), 'utf8'), ctx, { filename: f + '.js' });
 ctx.mi = +(process.argv[2] || 4);
 vm.runInContext(`
 const g = new Game(mi, 'normal', ['sandbox']); g.gold = 1e9; const G = g.map.grid; const types = Object.keys(TOWERS); let k = 0;

@@ -4,10 +4,16 @@
 
 Game thủ thành (tower defense) chạy trên trình duyệt. HTML5 Canvas + JavaScript thuần, không cần cài đặt hay build.
 
+| | |
+|---|---|
+| **Chơi ngay trên trình duyệt** | https://alumieye.github.io/eyepalace/ |
+| **Tải game (chơi offline, 1 file)** | https://github.com/ALumiEye/eyepalace/releases/latest/download/eyepalace.html |
+| Các bản phát hành | https://github.com/ALumiEye/eyepalace/releases |
+
 ## Chơi ngay
 - **Trên trình duyệt:** https://alumieye.github.io/eyepalace/ — cài được như ứng dụng và chơi offline.
-- **Offline, không cần cài:** tải `eyepalace.html` ở [bản phát hành mới nhất](https://github.com/ALumiEye/eyepalace/releases/latest)
-  rồi bấm đúp để mở. Cả game nằm trong một file, dễ gửi cho người khác.
+- **Offline, không cần cài:** [tải `eyepalace.html`](https://github.com/ALumiEye/eyepalace/releases/latest/download/eyepalace.html)
+  (bản phát hành mới nhất) rồi bấm đúp để mở. Cả game nằm trong một file, dễ gửi cho người khác.
 - **Từ mã nguồn:** mở `index.html` bằng trình duyệt, hoặc chạy server tĩnh `python3 -m http.server 8765`
   rồi vào http://127.0.0.1:8765.
 - Phiên bản đang chạy hiện ở cuối menu chính.
@@ -53,15 +59,15 @@ Game thủ thành (tower defense) chạy trên trình duyệt. HTML5 Canvas + Ja
 ## Cấu trúc mã
 | File | Vai trò |
 |---|---|
-| `js/config.js` | Số liệu tháp, nhánh, quái, độ khó, kỹ năng, thành tựu, thử thách |
-| `js/maps.js` | Bản đồ, đường đi (`Path`), sinh lưới & vật cản, bản đồ ngẫu nhiên |
-| `js/entities.js` | `Enemy`, `Tower`, `Projectile` – logic thuần, không DOM |
-| `js/waves.js` | Sinh đợt quái, đợt đêm, cổng, gợi ý chiến thuật |
-| `js/game.js` | Trạng thái ván chơi, vòng cập nhật, hiệu ứng, điểm, lưu/tải |
-| `js/render.js` | Vẽ Canvas 2D |
-| `js/audio.js` | Âm thanh, nhạc nền & âm thanh môi trường WebAudio |
-| `js/main.js` | Giao diện, nhập liệu, lưu trữ |
-| `js/achievements.js` | Thành tựu, thống kê, xếp hạng, cẩm nang, xuất/nhập dữ liệu |
+| `src/config.js` | Số liệu tháp, nhánh, quái, độ khó, kỹ năng, thành tựu, thử thách |
+| `src/maps.js` | Bản đồ, đường đi (`Path`), sinh lưới & vật cản, bản đồ ngẫu nhiên |
+| `src/entities.js` | `Enemy`, `Tower`, `Projectile` – logic thuần, không DOM |
+| `src/waves.js` | Sinh đợt quái, đợt đêm, cổng, gợi ý chiến thuật |
+| `src/game.js` | Trạng thái ván chơi, vòng cập nhật, hiệu ứng, điểm, lưu/tải |
+| `src/render.js` | Vẽ Canvas 2D |
+| `src/audio.js` | Âm thanh, nhạc nền & âm thanh môi trường WebAudio |
+| `src/main.js` | Giao diện, nhập liệu, lưu trữ |
+| `src/achievements.js` | Thành tựu, thống kê, xếp hạng, cẩm nang, xuất/nhập dữ liệu |
 | `sw.js`, `manifest.webmanifest` | Chơi offline / cài như ứng dụng |
 | `tools/test.js` | Kiểm thử logic: `node tools/test.js` |
 | `tools/style-check.js` | Kiểm tra nhận diện ALumiEye (logo, 7 mã màu, không gradient/serif/kính mờ/emoji trên nút): `node tools/style-check.js` |

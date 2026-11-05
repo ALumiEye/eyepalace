@@ -7,7 +7,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const root = path.join(__dirname, '..');
 const VERSION_SLOT = '<span id="game-version">bản nguồn</span>';
-const SITE = ['index.html', 'style.css', 'sw.js', 'manifest.webmanifest', 'js', 'assets'];
+const SITE = ['index.html', 'style.css', 'sw.js', 'manifest.webmanifest', 'src', 'assets'];
 
 const escapeHtml = text => String(text).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -19,7 +19,7 @@ function single(source) {
   html = html.replace(/<link rel="manifest"[^>]*>\n?/, '');
   html = html.replace('<html lang="vi">', '<html lang="vi" data-single="1">');
   const scripts = [];
-  html = html.replace(/<script src="(js\/[a-z]+\.js)[^"]*"><\/script>\n?/g, (_, src) => { scripts.push(src); return ''; });
+  html = html.replace(/<script src="(src\/[a-z]+\.js)[^"]*"><\/script>\n?/g, (_, src) => { scripts.push(src); return ''; });
   // Nhúng mọi ảnh (Lumi, logo ALumiEye, favicon) để mở file:// vẫn đủ hình.
   const images = ['lumi.png', 'alumieye.png', 'favicon.png'].map(name =>
     ['assets/' + name, 'data:image/png;base64,' + fs.readFileSync(path.join(root, 'assets', name)).toString('base64')]);

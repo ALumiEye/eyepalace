@@ -18,7 +18,7 @@
 
 **Lumi**
 - Chỉ dùng ảnh gốc `assets/lumi.png` (từ `eyetank/src/client/lumi.png`), không vẽ lại.
-- Luôn vẽ theo tỷ lệ gốc: tính kích thước từ `naturalWidth/naturalHeight` (xem `drawCastle` trong `js/render.js`).
+- Luôn vẽ theo tỷ lệ gốc: tính kích thước từ `naturalWidth/naturalHeight` (xem `drawCastle` trong `src/render.js`).
   Không bao giờ ép vào khung khác tỷ lệ.
 
 **Màu** (giá trị chính xác, khai báo trong `:root` của `style.css`)
@@ -54,13 +54,13 @@ Gallery public của EyeRim chỉ hiển thị tên Vanguard/Tempest; không đ�
 
 ## Riêng Eye Palace
 
-- **Chiến trường** (vẽ trên canvas, `js/render.js`) giữ tông **tối, vây hãm** theo yêu cầu của người dùng:
+- **Chiến trường** (vẽ trên canvas, `src/render.js`) giữ tông **tối, vây hãm** theo yêu cầu của người dùng:
   quái mắt đỏ và nanh, cây khô, đường ba làn rộng, thành 3×3 có tường và bốn vọng gác bao quanh Lumi,
   báo động đỏ khi trùm áp sát hoặc thành còn ≤30% máu. Chỉ **khung giao diện** (HUD, thanh bên, menu, lớp phủ)
   theo bộ màu kem/tím/cam ở trên. Đừng "làm sáng" chiến trường nếu người dùng không yêu cầu.
 - **Máu thành** phải luôn dễ thấy: chip "MÁU THÀNH x / y" trên HUD và bảng máu lớn cạnh thành trên canvas,
   có cả số lẫn vạch, đổi xanh → vàng (≤60%) → đỏ (≤30%).
-- **Nhạc**: combat điện tử thích ứng (`js/audio.js`), 120 / 168 / 180 / 192 BPM theo chuẩn bị / giao tranh /
+- **Nhạc**: combat điện tử thích ứng (`src/audio.js`), 120 / 168 / 180 / 192 BPM theo chuẩn bị / giao tranh /
   trùm / nguy cấp, có build-up, ngắt nhịp rồi drop. Giữ thanh âm lượng nhạc/hiệu ứng riêng.
 - **Ngoại lệ đã biết, chưa sửa**: thanh trình vẽ bản đồ (`#editor-bar`) và một số nội dung do JS sinh
   (cẩm nang, mẹo, ngôi sao) vẫn còn biểu tượng cảm xúc. Khi sửa tới đó thì thay bằng chữ, và giữ

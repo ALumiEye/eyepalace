@@ -3,7 +3,7 @@
 const fs = require('fs'), path = require('path');
 const { chromium } = require('playwright-core');
 const root = path.resolve(__dirname, '..');
-const source = fs.readFileSync(path.join(root, 'js/audio.js'), 'utf8');
+const source = fs.readFileSync(path.join(root, 'src/audio.js'), 'utf8');
 const check = (ok, text) => { if (!ok) throw new Error(text); console.log('✓ ' + text); };
 (async () => {
   const browser = await chromium.launch({ channel: 'chrome', headless: true });

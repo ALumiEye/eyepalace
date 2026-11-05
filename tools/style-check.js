@@ -42,7 +42,7 @@ const emoji = [...new Set((visible.match(/\p{Extended_Pictographic}/gu) || []).f
 check(emoji.length === 0, 'index.html không có biểu tượng cảm xúc trên HUD/menu/nút' + (emoji.length ? ` (thấy: ${emoji.join(' ')})` : ''));
 
 // 5. Lumi vẽ theo tỷ lệ ảnh gốc (kiểm tra thật trên Chrome nằm trong browser-check.js).
-const render = read('js/render.js');
+const render = read('src/render.js');
 check(/naturalWidth/.test(render) && /naturalHeight/.test(render), 'render.js vẽ Lumi theo naturalWidth/naturalHeight');
 
 for (const l of ok) console.log('✓ ' + l);

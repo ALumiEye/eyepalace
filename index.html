@@ -4,31 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Eye Palace – Thủ Thành</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1a1f36">
+<meta name="theme-color" content="#3d2141">
 <meta name="description" content="Game thủ thành: dựng tháp canh bảo vệ cung điện khỏi quái vật.">
-<link rel="stylesheet" href="style.css?v=109">
+<link rel="stylesheet" href="style.css?v=111">
 </head>
 <body>
+<!-- Logo ALumiEye ở góc trên trái mọi màn hình, giống EyeTank và EyeRush. -->
+<img id="brand" src="assets/alumieye.png" alt="ALumiEye">
 <div id="app">
   <header id="hud">
-    <div class="brand">◈ EYE PALACE</div>
-    <div class="stat" title="Đợt"><span class="ico">🌊</span><span id="hud-wave">0</span></div>
-    <div class="stat" title="Vàng"><span class="ico">🪙</span><span id="hud-gold">0</span></div>
-    <div class="stat castle-health" title="Độ bền thành bảo vệ Lumi" role="progressbar" aria-label="Máu thành bảo vệ Lumi" aria-valuemin="0" aria-valuemax="20" aria-valuenow="20"><span class="health-label">MÁU THÀNH</span><span id="hud-lives">20 / 20</span></div>
-    <div class="stat" title="Quái còn lại trong đợt"><span class="ico">👾</span><span id="hud-left">0</span></div>
+    <div class="wordmark">Eye<span>Palace</span></div>
+    <div class="stat" title="Đợt"><small>ĐỢT</small><span id="hud-wave">0</span></div>
+    <div class="stat gold" title="Vàng"><small>VÀNG</small><span id="hud-gold">0</span></div>
+    <div class="stat castle-health" title="Độ bền thành bảo vệ Lumi" role="progressbar" aria-label="Máu thành bảo vệ Lumi" aria-valuemin="0" aria-valuemax="20" aria-valuenow="20"><small class="health-label">MÁU THÀNH</small><span id="hud-lives">20 / 20</span></div>
+    <div class="stat" title="Quái còn lại trong đợt"><small>QUÁI</small><span id="hud-left">0</span></div>
     <div id="wave-bar" title="Tiến độ đợt"><i></i></div>
     <div class="spacer"></div>
     <button id="btn-wave" class="primary" title="Phím Space">▶ Đợt tiếp</button>
-    <button id="btn-auto" title="Tự động gọi đợt kế tiếp (phím A)">🔁</button>
+    <button id="btn-auto" title="Tự động gọi đợt kế tiếp (phím A)">Tự gọi</button>
     <button id="btn-speed" title="Phím F">x1</button>
-    <button id="btn-pause" title="Phím P">⏸</button>
-    <button id="btn-sound" title="Âm thanh (phím M)">🔊</button>
-    <button id="btn-music" title="Nhạc nền (phím N)">🎵</button>
-    <button id="btn-full" title="Toàn màn hình">⛶</button>
-    <button id="btn-help" title="Hướng dẫn">?</button>
-    <button id="btn-menu" title="Về menu">☰</button>
+    <button id="btn-pause" title="Tạm dừng (phím P)" aria-label="Tạm dừng">II</button>
+    <button id="btn-sound" title="Âm thanh (phím M)">Âm: Bật</button>
+    <button id="btn-music" title="Nhạc nền (phím N)">Nhạc</button>
+    <button id="btn-full" title="Toàn màn hình" aria-label="Toàn màn hình">⛶</button>
+    <button id="btn-help" title="Hướng dẫn" aria-label="Hướng dẫn">?</button>
+    <button id="btn-menu" title="Về menu">Menu</button>
   </header>
   <main id="main">
     <div id="stage">
@@ -45,7 +47,7 @@
       <div id="tower-list"></div>
       <h3>Kỹ năng</h3>
       <div id="ability-list" class="ability-list"></div>
-      <button id="btn-skip" class="hidden" title="Chỉ có ở chế độ Thử Nghiệm">⏭ Nhảy +5 đợt</button>
+      <button id="btn-skip" class="hidden" title="Chỉ có ở chế độ Thử Nghiệm">Nhảy +5 đợt</button>
       <button id="btn-undo" class="hidden" title="Hoàn tác (phím Z) – chỉ trong lúc chuẩn bị">↶ Hoàn tác</button>
       <div id="info" class="panel"></div>
       <div id="next-wave" class="panel"></div>
@@ -55,9 +57,8 @@
 
   <div id="overlay-menu" class="overlay">
     <div class="card menu">
-      <p class="siege-kicker">PHÁO ĐÀI CUỐI CÙNG · BẢO VỆ LUMI</p>
-      <h1><img class="lumi-mark" src="assets/lumi.png" alt="Lumi"> <span class="grad">EYE PALACE</span></h1>
-      <p class="sub">Bóng tối đã tới chân thành. Giữ vững phòng tuyến — đừng để Lumi rơi vào tay lũ quái.</p>
+      <h1><img src="assets/lumi.png" alt="">Eye<span>Palace</span></h1>
+      <p class="sub">Thủ thành. Dựng tháp canh, chặn lũ quái, bảo vệ Lumi.</p>
       <h4>Chọn bản đồ</h4>
       <div id="map-list" class="map-list"></div>
       <h4>Độ khó</h4>
@@ -65,11 +66,11 @@
       <h4>Thử thách <small id="mod-mul"></small></h4>
       <div id="mod-list" class="mod-list"></div>
       <div class="row">
-        <button id="btn-continue" class="hidden">⟲ Chơi tiếp ván đã lưu</button>
+        <button id="btn-continue" class="hidden">Chơi tiếp ván đã lưu</button>
         <button id="btn-daily" class="daily"></button>
-        <button id="btn-editor">🛠 Tự vẽ bản đồ</button>
-        <button id="btn-ach">🏅 Thành tựu</button>
-        <button id="btn-book">📖 Cẩm nang</button>
+        <button id="btn-editor">Tự vẽ bản đồ</button>
+        <button id="btn-ach">Thành tựu</button>
+        <button id="btn-book">Cẩm nang</button>
         <button id="btn-play" class="primary big">Bắt đầu</button>
       </div>
       <p class="help">Phím tắt: <b>1-8</b> chọn tháp · <b>Space</b> gọi đợt · <b>U</b> nâng cấp · <b>S</b> bán · <b>T</b> đổi mục tiêu · <b>Q/W</b> kỹ năng · <b>←↑↓→ + Enter</b> chơi bằng phím · <b>R</b> (giữ) xem tầm mọi tháp · <b>Tab</b> chọn tháp · <b>Z</b> hoàn tác · <b>A</b> tự gọi đợt · <b>F</b> tốc độ · <b>P</b> tạm dừng · <b>Esc</b> huỷ</p>
@@ -77,28 +78,28 @@
   </div>
 
   <div id="overlay-ach" class="overlay hidden">
-    <div class="card"><h2>🏅 Thành tựu</h2><div id="ach-list" class="ach-list"></div>
-      <div class="row"><button id="btn-export">💾 Xuất dữ liệu</button><button id="btn-import">📂 Nhập dữ liệu</button><button id="btn-ach-close" class="primary">Đóng</button></div>
+    <div class="card"><h2>Thành tựu</h2><div id="ach-list" class="ach-list"></div>
+      <div class="row"><button id="btn-export">Xuất dữ liệu</button><button id="btn-import">Nhập dữ liệu</button><button id="btn-ach-close" class="primary">Đóng</button></div>
       <input type="file" id="import-file" accept=".json,application/json" class="hidden">
     </div>
   </div>
   <div id="overlay-book" class="overlay hidden">
-    <div class="card wide"><h2>📖 Cẩm nang</h2>
+    <div class="card wide"><h2>Cẩm nang</h2>
       <h4>Quái vật</h4><div id="book-enemies" class="book"></div>
       <h4>Tháp canh</h4><div id="book-towers" class="book"></div>
-      <h4>🛠 Mẹo vẽ bản đồ</h4>
+      <h4>Mẹo vẽ bản đồ</h4>
       <ul class="book-tips">
         <li>Đường chính bắt đầu ở <b>cột trái</b>, mỗi đoạn thẳng, dài tối thiểu 20 ô. Điểm cuối là cung điện.</li>
-        <li><b>➕ Cổng mới</b> (tối đa 3 cổng): nhánh phụ cũng bắt đầu ở cột trái và nhập vào đường chính – nhập càng muộn, quái các cổng càng khó dồn chung một chỗ.</li>
+        <li><b>Cổng mới</b> (tối đa 3 cổng): nhánh phụ cũng bắt đầu ở cột trái và nhập vào đường chính – nhập càng muộn, quái các cổng càng khó dồn chung một chỗ.</li>
         <li>Đường càng dài (tính cả nhánh) thì quái càng trâu, nhưng tháp cũng có nhiều thời gian bắn hơn. Thanh trình vẽ hiện hệ số máu ước tính.</li>
-        <li><b>🔥 Ô nóng</b> (tối đa 8) cho tháp đặt trên đó +25% sát thương – đặt ở góc cua trong để phủ được nhiều đường; mỗi ô làm quái trâu thêm 2%.</li>
-        <li>Chủ đề chỉ đổi hình ảnh, thời tiết và âm thanh – không đổi luật. Bấm <b>🔗 Sao chép liên kết</b> để gửi bản đồ cho bạn bè.</li>
+        <li><b>Ô nóng</b> (tối đa 8) cho tháp đặt trên đó +25% sát thương – đặt ở góc cua trong để phủ được nhiều đường; mỗi ô làm quái trâu thêm 2%.</li>
+        <li>Chủ đề chỉ đổi hình ảnh, thời tiết và âm thanh – không đổi luật. Bấm <b>Sao chép liên kết</b> để gửi bản đồ cho bạn bè.</li>
       </ul>
       <div class="row"><button id="btn-book-close" class="primary">Đóng</button></div>
     </div>
   </div>
   <div id="overlay-keys" class="overlay hidden">
-    <div class="card"><h2>⌨️ Phím tắt</h2>
+    <div class="card"><h2>Phím tắt</h2>
       <table class="keys">
         <tr><td>1 – 8</td><td>Chọn tháp để xây (giữ Shift để xây liên tiếp)</td></tr>
         <tr><td>← ↑ ↓ → / Enter</td><td>Di chuyển con trỏ ô / thao tác tại ô</td></tr>
@@ -113,7 +114,7 @@
         <tr><td>P / Esc</td><td>Tạm dừng / Huỷ chọn</td></tr>
         <tr><td>M / N</td><td>Âm thanh / Nhạc nền</td></tr>
         <tr><td>?</td><td>Bảng này</td></tr>
-        <tr><th colspan="2">🛠 Trình vẽ bản đồ</th></tr>
+        <tr><th colspan="2">Trình vẽ bản đồ</th></tr>
         <tr><td>G / C / H / T</td><td>Gợi ý đường / Cổng mới / Bật-tắt ô nóng / Đổi chủ đề</td></tr>
         <tr><td>Z, Backspace, chuột phải</td><td>Hoàn tác điểm vừa vẽ</td></tr>
         <tr><td>Enter / Esc</td><td>Chơi bản đồ / Thoát trình vẽ</td></tr>
@@ -131,28 +132,28 @@
 
   <div id="overlay-pause" class="overlay hidden">
     <div class="card"><h2>Tạm dừng</h2><div id="pause-info" class="pause-info"></div>
-      <div class="vol"><label>🔊 Hiệu ứng <input type="range" id="vol-sfx" min="0" max="100"></label>
-        <label>🎵 Nhạc nền <input type="range" id="vol-music" min="0" max="100"></label></div>
-      <div class="row"><button id="btn-lowfx">✨ Hiệu ứng: Cao</button><button id="btn-keys">⌨️ Phím tắt</button></div>
+      <div class="vol"><label>Hiệu ứng <input type="range" id="vol-sfx" min="0" max="100"></label>
+        <label>Nhạc nền <input type="range" id="vol-music" min="0" max="100"></label></div>
+      <div class="row"><button id="btn-lowfx">Hiệu ứng: Cao</button><button id="btn-keys">Phím tắt</button></div>
       <div class="row"><button id="btn-resume" class="primary">Tiếp tục</button><button id="btn-restart">Chơi lại</button><button id="btn-quit">Về menu</button></div>
     </div>
   </div>
 
   <div id="overlay-end" class="overlay hidden">
     <div class="card"><h2 id="end-title"></h2><p id="end-text"></p>
-      <div class="row"><button id="btn-endless" class="primary hidden">Chơi vô tận</button><button id="btn-again" class="primary">Chơi lại</button><button id="btn-end-edit" class="hidden">🛠 Sửa bản đồ này</button><button id="btn-end-menu">Về menu</button></div>
+      <div class="row"><button id="btn-endless" class="primary hidden">Chơi vô tận</button><button id="btn-again" class="primary">Chơi lại</button><button id="btn-end-edit" class="hidden">Sửa bản đồ này</button><button id="btn-end-menu">Về menu</button></div>
     </div>
   </div>
 </div>
 
-<script src="js/config.js?v=109"></script>
-<script src="js/maps.js?v=109"></script>
-<script src="js/entities.js?v=109"></script>
-<script src="js/waves.js?v=109"></script>
-<script src="js/game.js?v=109"></script>
-<script src="js/render.js?v=109"></script>
-<script src="js/audio.js?v=109"></script>
-<script src="js/main.js?v=109"></script>
-<script src="js/achievements.js?v=109"></script>
+<script src="js/config.js?v=111"></script>
+<script src="js/maps.js?v=111"></script>
+<script src="js/entities.js?v=111"></script>
+<script src="js/waves.js?v=111"></script>
+<script src="js/game.js?v=111"></script>
+<script src="js/render.js?v=111"></script>
+<script src="js/audio.js?v=111"></script>
+<script src="js/main.js?v=111"></script>
+<script src="js/achievements.js?v=111"></script>
 </body>
 </html>

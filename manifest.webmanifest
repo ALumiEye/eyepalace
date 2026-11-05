@@ -1,12 +1,15 @@
 {
   "name": "Eye Palace – Thủ Thành",
   "short_name": "Eye Palace",
-  "description": "Game thủ thành: dựng tháp canh bảo vệ cung điện khỏi quái vật.",
+  "description": "Game thủ thành của ALumiEye: dựng tháp canh bảo vệ Lumi khỏi quái vật.",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "landscape",
-  "background_color": "#0f1220",
-  "theme_color": "#1a1f36",
+  "background_color": "#3d2141",
+  "theme_color": "#3d2141",
   "lang": "vi",
-  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+  "icons": [
+    { "src": "assets/favicon.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "assets/lumi.png", "sizes": "256x256", "type": "image/png", "purpose": "any" }
+  ]
 }

@@ -6,17 +6,18 @@ const root = path.join(__dirname, '..');
 let html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const css = fs.readFileSync(path.join(root, 'style.css'), 'utf8');
 html = html.replace(/<link rel="stylesheet" href="style\.css[^"]*">/, () => `<style>\n${css}\n</style>`);
-// Bản 1 file: nhúng icon dạng data URI, bỏ manifest (không có service worker)
-const icon = fs.readFileSync(path.join(root, 'icon.svg'), 'utf8');
-html = html.replace(/<link rel="icon" href="icon\.svg"[^>]*>/, `<link rel="icon" href="data:image/svg+xml,${encodeURIComponent(icon)}">`);
+// Bản 1 file: bỏ manifest (không có service worker); ảnh được nhúng dạng data URI bên dưới.
 html = html.replace(/<link rel="manifest"[^>]*>\n?/, '');
 html = html.replace('<html lang="vi">', '<html lang="vi" data-single="1">');
 const scripts = [];
 html = html.replace(/<script src="(js\/[a-z]+\.js)[^"]*"><\/script>\n?/g, (_, src) => { scripts.push(src); return ''; });
 // Mỗi file giữ 'use strict' cục bộ trong khối riêng nhưng vẫn dùng chung phạm vi toàn cục như khi tải nhiều thẻ <script>
-const lumi = 'data:image/png;base64,' + fs.readFileSync(path.join(root, 'assets', 'lumi.png')).toString('base64');
-html = html.replaceAll('assets/lumi.png', lumi);
-const js = scripts.map(src => `/* ---- ${src} ---- */\n` + fs.readFileSync(path.join(root, src), 'utf8').replace(/^'use strict';\n/, '').replaceAll('assets/lumi.png', lumi)).join('\n');
+// Nhúng mọi ảnh (Lumi, logo ALumiEye, favicon) để mở file:// vẫn đủ hình.
+const images = ['lumi.png', 'alumieye.png', 'favicon.png'].map(name =>
+  ['assets/' + name, 'data:image/png;base64,' + fs.readFileSync(path.join(root, 'assets', name)).toString('base64')]);
+const inline = text => images.reduce((s, [from, to]) => s.replaceAll(from, to), text);
+html = inline(html);
+const js = scripts.map(src => `/* ---- ${src} ---- */\n` + inline(fs.readFileSync(path.join(root, src), 'utf8').replace(/^'use strict';\n/, ''))).join('\n');
 html = html.replace('</body>', () => `<script>\n'use strict';\n${js.replace(/<\/script/g, '<\\/script')}\n</script>\n</body>`);
 // Hàm thay thế giữ nguyên các chuỗi $ trong mã game (vd. ký hiệu vàng).
 new (require('vm').Script)(js, { filename: 'eyepalace-bundle.js' });

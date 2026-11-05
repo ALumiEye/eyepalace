@@ -1,6 +1,6 @@
 // Service worker: ưu tiên mạng (luôn lấy bản mới), mất mạng thì dùng bản đã lưu → chơi offline được
-const CACHE = 'eyepalace-v3';
-const CORE = ['./', './index.html', './style.css', './icon.svg', './assets/lumi.png', './manifest.webmanifest',
+const CACHE = 'eyepalace-v4';
+const CORE = ['./', './index.html', './style.css', './assets/favicon.png', './assets/alumieye.png', './assets/lumi.png', './manifest.webmanifest',
   ...['config', 'maps', 'entities', 'waves', 'game', 'render', 'audio', 'main', 'achievements'].map(f => `./js/${f}.js`)];
 self.addEventListener('install', e => {
   self.skipWaiting();

@@ -3,6 +3,19 @@
 Game thủ thành (tower defense) HTML5 Canvas, JS thuần, không cần build. Mở `index.html` hoặc chạy
 `python3 -m http.server` trong thư mục này. Mô phỏng cân bằng: `node tools/sim.js <map> <diff> <số ván>`.
 
+## v9.6 — Giữ style khi đổi model (2026-11-05)
+- Thêm `AGENTS.md` (Codex/GPT đọc) + `CLAUDE.md` (`@AGENTS.md`, Claude Code đọc) ở `eyepalace/` và bản chung ở `eyegame/` cho cả bốn game: logo, 7 mã màu, kiểu nút/thẻ/tiêu đề/chip HUD, danh sách cấm, phần riêng Eye Palace (chiến trường tối, máu thành, nhạc), lệnh kiểm tra và quy tắc khi mâu thuẫn. Bản trong eyepalace đi theo repo git; bản `eyegame/` chỉ ở máy.
+- Thêm `tools/style-check.js` (18 mục, đọc tĩnh): logo `#brand` đúng file và giống từng byte bản EyeTank, không icon.svg/◈, 7 mã màu, không gradient/serif/backdrop-filter, nút góc vuông + bóng cứng, không emoji trên HUD/menu/nút, Lumi vẽ theo tỷ lệ gốc. Thử phá trên bản sao tạm: gradient, xoá logo, đổi màu plum, emoji trên nút, chữ có chân → đều bị bắt.
+- Dọn để bài kiểm tra đạt thật: bỏ 3 gradient cũ bị ghi đè, kính mờ ở lớp phủ, quy tắc `.brand`/`.grad` không dùng, emoji ở nút "Nhảy +5 đợt" và mẹo cẩm nang. Thanh trình vẽ còn emoji, ghi là ngoại lệ đã biết. Query v111.
+
+## v9.5 — Đúng logo & nhận diện ALumiEye (2026-11-05)
+- Phản hồi: UI xấu, nhìn giả, sai logo. Logo đúng là mắt trong tam giác/vòng tròn tím (`eyetank/src/client/alumieye.png`, giống hệt EyeRush). Chép sang `assets/alumieye.png`, hiện cố định góc trên trái mọi màn hình như EyeTank/EyeRush. Bỏ `icon.svg` (con mắt chung chung) và chữ `◈ EYE PALACE`; favicon dùng mặt Lumi giống EyeTank.
+- Giao diện dùng bộ màu chung (kem #efe3cc, tím mận #3d2141/#59325d, cam #eba96b/#cf8549, hồng #f2b3ae): nút phẳng viền 3px bóng đổ cứng lún khi bấm, thẻ/bảng viền 4px, tiêu đề Eye**Palace** đậm 900 kèm Lumi. Bỏ gradient, kim loại giả, chữ có chân, bo góc, kính mờ.
+- HUD theo chip EyeRush (nhãn hồng nhỏ + số): ĐỢT / VÀNG / MÁU THÀNH / QUÁI; nút chữ thay biểu tượng cảm xúc (Tự gọi, II, Âm: Bật/Tắt, Nhạc, Menu). Thẻ tạm dừng, nút menu, tiêu đề cẩm nang/thành tựu/phím tắt và màn kết thúc cũng bỏ biểu tượng cảm xúc.
+- Điện thoại: số liệu một dòng cạnh logo, nút xuống dòng sát mép trái. Đo trang 390×844 mới tải: cao đúng 844 px, một HUD, nút 2 hàng.
+- Chưa đổi: chiến trường vẽ canvas vẫn tông tối vây hãm theo yêu cầu trước; nội dung do JS sinh (ngôi sao, cẩm nang, mẹo) vẫn còn vài biểu tượng cảm xúc; bố cục điện thoại vẫn trống nhiều quanh bản đồ.
+- 64/64 logic, toàn bộ Chrome browser-check đạt (thêm kiểm tra logo ở bản thường và bản một file), không lỗi console; build ~341 KB, query v110, cache SW v4.
+
 ## v9.4 — Combat điện tử dồn dập (2026-11-05)
 - Theo yêu cầu nhạc căng/high dopamine: phối lại thành bass offbeat (sub + saw), synth ngắn lọc quét, kick/breakbeat, snare có thân trầm, hi-hat kép ở nguy cấp; không chỉ tăng gain. Giữ gain nhạc 1,6 và slider cũ.
 - Tempo chuẩn bị/giao tranh/trùm/nguy cấp: 120/168/180/192 BPM; chu kỳ 8 ô nhịp có snare roll + noise riser, ngắt nửa phách cuối rồi drop kick/crash. Lớp synth bè và nhịp đảo tăng ở trùm/nguy cấp.

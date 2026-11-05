@@ -34,7 +34,8 @@ Game thủ thành (tower defense) chạy trên trình duyệt. HTML5 Canvas + Ja
 ## Nội dung
 - **Bảo vệ Lumi** (nhân vật gốc từ EyeTank) trong sân thành có tường bao và bốn vọng gác; sân 3×3 ô không xây được. Máu thành thấp làm tường nứt/cháy.
 - **Đại lộ ba làn**, rộng hơn trước ~72% tính theo mép đường (79,2 / 46 px); bộ binh tiến theo tổ ba, tổng quái/thưởng mỗi đợt không đổi.
-- Mỹ thuật **vây hãm**: thép tối, đồng cháy, cây khô, quái mắt đỏ; báo động khi quái/trùm áp sát hoặc thành còn ≤30% máu. Hỗ trợ giảm chuyển động.
+- Giao diện theo **nhận diện ALumiEye** như EyeTank/EyeRush: logo ALumiEye góc trên trái, chữ Eye**Palace**, nền kem – tím mận – cam, nút viền dày bóng đổ cứng, không dùng biểu tượng cảm xúc trên HUD/menu.
+- Chiến trường **vây hãm**: cây khô, quái mắt đỏ; báo động khi quái/trùm áp sát hoặc thành còn ≤30% máu. Hỗ trợ giảm chuyển động.
 - **8 tháp × 3 cấp + 16 nhánh cấp 4**: Cung, Pháo, Băng, Sét, Ngắm, Mắt Thần, Đài Chỉ Huy (hỗ trợ), Tháp Độc
 - **16 loại quái** (có quái thưởng Yêu Tinh Vàng): bay, tàng hình, đào hầm, khiên, hồi máu, tách đôi, phù thủy phá phép… và 3 trùm
   (Chúa Quỷ, Long Vương bay, Vua Nhớt)
@@ -58,6 +59,8 @@ Game thủ thành (tower defense) chạy trên trình duyệt. HTML5 Canvas + Ja
 | `js/achievements.js` | Thành tựu, thống kê, xếp hạng, cẩm nang, xuất/nhập dữ liệu |
 | `sw.js`, `manifest.webmanifest` | Chơi offline / cài như ứng dụng |
 | `tools/test.js` | Kiểm thử logic: `node tools/test.js` |
+| `tools/style-check.js` | Kiểm tra nhận diện ALumiEye (logo, 7 mã màu, không gradient/serif/kính mờ/emoji trên nút): `node tools/style-check.js` |
+| `AGENTS.md`, `CLAUDE.md` | Quy tắc style cho mọi trợ lý AI (Claude, GPT/Codex…) — đọc trước khi sửa giao diện |
 | `tools/audio-check.js` | Đo nhạc bằng WebAudio thật trong Chrome: âm lượng, đỉnh âm, mute, chuyển cấp, dọn nguồn phát |
 | `tools/browser-check.js` | Chơi thử trên Chrome: thao tác, nhạc thích ứng, mobile, bản một file |
 | `tools/sim.js` | Bot mô phỏng cân bằng: `node tools/sim.js <map 0-8> <diff> <số ván>` (`MODS=…`, `SEED=…`, `CUSTOM=<mã>` với map 9) |

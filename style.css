@@ -1,26 +1,30 @@
+/* Bộ màu chung ALumiEye (giống EyeTank/EyeRush): kem, tím mận, cam. */
 :root {
-  --bg: #0b0c0e; --panel: #18191c; --panel2: #242427; --line: #49413a;
-  --text: #ede6d9; --muted: #b3a99b; --gold: #e6b970; --accent: #a53c2b; --danger: #fa6c55; --ok: #a8bd85;
+  --cream: #efe3cc; --cream-light: #f6eddb; --plum: #59325d; --plum-dark: #3d2141;
+  --orange: #eba96b; --orange-dark: #cf8549; --pink: #f2b3ae;
+  --bg: var(--plum-dark); --panel: var(--cream); --panel2: var(--cream-light); --line: var(--plum-dark);
+  --text: var(--plum-dark); --muted: #75586f; --gold: #9a5520; --accent: var(--plum); --danger: #b8372b; --ok: #3d7a4b;
 }
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; max-width: 100vw; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; overflow: hidden; user-select: none; -webkit-user-select: none; }
-button { font: inherit; color: var(--text); background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; transition: background .12s, transform .05s; }
-button:hover:not(:disabled) { background: #2e3762; }
-button:active:not(:disabled) { transform: translateY(1px); }
-button:disabled { opacity: .45; cursor: not-allowed; }
-button.primary { background: linear-gradient(#a73e2d, #74291f); border-color: #d67950; box-shadow: inset 0 1px #db99733b; }
-button.primary:hover:not(:disabled) { background: #ba4932; }
+html, body { margin: 0; height: 100%; max-width: 100vw; background: var(--bg); color: var(--text); font: 600 15px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; overflow: hidden; user-select: none; -webkit-user-select: none; }
+/* Nút phẳng viền dày, bóng đổ cứng, ấn xuống thì lún — đúng kiểu nút EyeTank. */
+button { font: inherit; color: var(--plum-dark); background: var(--cream-light); border: 3px solid var(--plum-dark); border-radius: 0; padding: 6px 12px; cursor: pointer; box-shadow: 0 3px 0 var(--plum-dark); transition: transform 60ms; }
+button:hover:not(:disabled) { background: #fff8ea; }
+button:active:not(:disabled) { transform: translateY(3px); box-shadow: none; }
+button:disabled { opacity: .55; cursor: default; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--orange-dark); outline-offset: 2px; }
+button.primary { background: var(--plum); color: var(--cream-light); }
+button.primary:hover:not(:disabled) { background: #6b3f70; }
 button.big { font-size: 18px; padding: 10px 28px; }
 .hidden { display: none !important; }
 
 #app { display: flex; flex-direction: column; height: 100%; }
 #hud { display: flex; align-items: center; gap: 10px; padding: 6px 12px; background: var(--panel); border-bottom: 1px solid var(--line); flex: 0 0 auto; }
-#hud .brand { font-weight: 800; letter-spacing: .5px; margin-right: 8px; }
 #hud .stat { display: flex; align-items: center; gap: 4px; background: var(--panel2); padding: 4px 10px; border-radius: 20px; font-weight: 700; min-width: 70px; }
 #hud .stat .ico { font-size: 14px; }
 #hud .spacer { flex: 1; }
 #wave-bar { width: 120px; height: 8px; background: var(--panel2); border-radius: 4px; overflow: hidden; }
-#wave-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #a78bfa, #f472b6); transition: width .2s; }
+#wave-bar i { display: block; height: 100%; width: 0; background: var(--orange); transition: width .2s; }
 @media (max-width: 800px) { #wave-bar { display: none; } }
 #hud-gold { color: var(--gold); }
 .flash-bad { animation: flashbad .4s; }
@@ -62,10 +66,9 @@ button.big { font-size: 18px; padding: 10px 28px; }
 .wave-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--panel); border-radius: 12px; padding: 2px 8px; margin: 2px; font-size: 12px; }
 .wave-chip img { width: 20px; height: 20px; margin: -3px 0; }
 
-.overlay { position: fixed; inset: 0; background: rgba(5,7,15,.75); display: flex; align-items: center; justify-content: center; z-index: 10; backdrop-filter: blur(3px); padding: 16px; }
+.overlay { position: fixed; inset: 0; background: rgba(5,7,15,.75); display: flex; align-items: center; justify-content: center; z-index: 10; padding: 16px; }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px; text-align: center; max-width: 820px; width: 100%; max-height: 100%; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
 .card h1 { margin: 0; font-size: 40px; }
-.card h1 .grad { background: linear-gradient(90deg, #f472b6, #8b5cf6, #38bdf8); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .card h2 { margin: 0 0 10px; }
 .card h4 { margin: 16px 0 8px; color: var(--muted); text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
 .card .sub { color: var(--muted); margin: 6px 0 0; }
@@ -88,7 +91,6 @@ button.big { font-size: 18px; padding: 10px 28px; }
   #info, #next-wave { min-width: 220px; }
   #tower-list, #ability-list { flex: 0 0 auto; }
   #ability-list { grid-template-columns: 110px; }
-  #hud .brand { display: none; }
   #hud { gap: 4px; padding: 4px 6px; flex-wrap: wrap; }
   #hud .stat { min-width: 0; padding: 3px 7px; font-size: 13px; }
   #hud .spacer { display: none; }
@@ -191,7 +193,6 @@ table.keys th { padding: 10px 10px 4px; text-align: left; font-size: 13px; opaci
   .tbtn canvas { width: 30px; height: 30px; }
   .tbtn .nm { display: none; }
   #hud { padding: 3px 8px; }
-  #hud .brand { display: none; }
 }
 .panel .desc.tips { font-size: 12px; line-height: 1.4; }
 
@@ -246,45 +247,112 @@ body.editing #hud .stat, body.editing #wave-bar, body.editing #btn-wave, body.ed
 .leak-life h4 { text-align: center; margin: 0 0 6px; }
 .leak-life .bar-row { display: grid; grid-template-columns: 120px 1fr 48px; gap: 8px; align-items: center; font-size: 13px; margin: 3px 0; }
 .leak-life .bar { height: 8px; background: rgba(255,255,255,.08); border-radius: 4px; overflow: hidden; }
-.leak-life .bar i { display: block; height: 100%; background: linear-gradient(90deg, #f87171, #ef4444); }
+.leak-life .bar i { display: block; height: 100%; background: #c4453a; }
 .leak-life b { text-align: right; }
 .leak-life .desc { font-size: 12px; margin-top: 6px; }
 
-/* Pháo đài bị vây: thép xám, đồng cháy, báo động theo tình trạng thật. */
-button, .panel, .card, .map-card, .ach, .book .entry { border-radius: 3px; }
-button:hover:not(:disabled) { background: #3b3530; }
-button:focus-visible { outline: 2px solid #e6b970; outline-offset: 3px; }
-#hud { background: linear-gradient(#252528, #171719); border-bottom: 2px solid #6a4d36; }
-#hud .brand { font-size: 13px; letter-spacing: 2px; color: #e6b970; }
-#hud .stat { border-radius: 3px; border: 1px solid #45403a; font-variant-numeric: tabular-nums; }
-#hud[data-danger="1"] { border-bottom-color: #dd9e4e; }
-#hud[data-danger="2"] { border-bottom-color: #fa6c55; background: linear-gradient(#3d201e, #21191a); }
-#hud[data-danger="2"] #hud-lives { color: #ff9a83; }
-#stage { background: radial-gradient(ellipse at 50% 30%, #272422, #0b0c0e 75%); }
-#cv { border-radius: 2px; outline: 1px solid #6a5745; box-shadow: 0 12px 50px #000b; }
-#side { background: linear-gradient(100deg, #202023, #161719); }
-#side h3 { color: #d2ad7a; font-size: 11px; letter-spacing: 2px; }
-.tbtn { background: linear-gradient(#2f3032, #202124); }
-.tbtn.active, .map-card.active, .diff-list button.active { background: #473328; outline-color: #d9ad70; }
-#wave-bar i { background: linear-gradient(90deg, #9c4e31, #e6b970); }
-.overlay { background: rgba(4,5,7,.86); }
-.card { background: linear-gradient(140deg, #262326, #151719 70%); border-top: 3px solid #aa6543; }
-.card h1 { font-family: Georgia, 'Times New Roman', serif; letter-spacing: 3px; }
-.card h1 .grad { background: linear-gradient(#f0dcc0, #c99759); -webkit-background-clip: text; background-clip: text; }
-.siege-kicker { color: #cc8b63; font-size: 10px; font-weight: 800; letter-spacing: 3px; margin: 0 0 8px; }
-.lumi-mark { width: 43px; height: 48px; vertical-align: middle; object-fit: contain; }
-.card.menu > .sub { max-width: 540px; margin: 8px auto 18px; line-height: 1.6; }
-#siege-status { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 2; pointer-events: none; max-width: calc(100% - 32px); padding: 6px 13px; border: 1px solid #786249; border-left: 3px solid #c39b60; background: #171719ed; color: #dcc5a0; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-align: center; }
-#siege-status[data-level="1"] { color: #ffd29a; border-color: #b17b3b; background: #39291aee; }
-#siege-status[data-level="2"] { color: #ffd5c8; border-color: #e25b43; background: #4a201bee; box-shadow: 0 0 22px #b72f242e; }
-/* Máu thành luôn có nhãn, con số và vạch đầy; không chỉ phân biệt bằng màu. */
-#hud .castle-health { --health: 100%; --health-color: #8ee0a5; position: relative; display: grid; gap: 1px; min-width: 132px; padding: 5px 12px 11px; border: 1px solid var(--health-color); background: #12221b; border-radius: 3px; }
-#hud .castle-health::after { content: ''; position: absolute; left: 0; bottom: 0; height: 5px; width: var(--health); background: var(--health-color); }
-#hud .health-label { font-size: 9px; font-weight: 800; letter-spacing: 1px; color: #f4eee2; }
-#hud .castle-health #hud-lives { font-size: 19px; line-height: 1.1; color: var(--health-color); font-variant-numeric: tabular-nums; }
-#hud .castle-health[data-level="warning"] { --health-color: #ffd17e; background: #302514; }
-#hud .castle-health[data-level="critical"] { --health-color: #ff998c; background: #3c1b1b; box-shadow: 0 0 0 2px #9c3b32; }
-@media (max-width: 800px) { #hud .castle-health { min-width: 106px; padding: 4px 8px 10px; } #hud .castle-health #hud-lives { font-size: 17px; } }
+/* ===== Nhận diện ALumiEye: logo, chữ, HUD, bảng và nút dùng chung với EyeTank/EyeRush ===== */
+#brand { position: fixed; top: calc(4px + env(safe-area-inset-top)); left: calc(8px + env(safe-area-inset-left)); z-index: 20; width: 44px; height: 44px; padding: 1px; border: 2px solid var(--plum); border-radius: 50%; background: var(--cream); pointer-events: none; }
+@media (min-width: 900px) and (min-height: 640px) { #brand { width: 56px; height: 56px; border-width: 3px; box-shadow: 0 3px 0 var(--plum); } }
+
+#hud { min-height: 52px; padding: 6px 12px 6px 76px; gap: 8px; background: var(--plum-dark); border-bottom: 0; color: var(--cream); font-variant-numeric: tabular-nums; }
+#hud .wordmark { font-size: 22px; font-weight: 900; letter-spacing: -.5px; color: var(--cream-light); margin-right: 6px; white-space: nowrap; }
+#hud .wordmark span { color: var(--orange); }
+/* Thẻ số liệu: nhãn nhỏ hồng phía trên, số lớn kem — giống chip HUD của EyeRush. */
+#hud .stat { display: grid; gap: 0; min-width: 64px; padding: 3px 10px; border: 2px solid var(--plum); border-radius: 10px; background: rgba(89, 50, 93, .55); color: var(--cream); font-size: 16px; line-height: 1.15; text-align: center; }
+#hud .stat small { color: var(--pink); font-size: 9px; letter-spacing: .08em; }
+#hud .stat.gold span, #hud-gold { color: var(--orange); }
+#hud button { min-height: 36px; padding: 4px 10px; font-size: 13px; box-shadow: 0 3px 0 #1f1022; border-color: #1f1022; }
+#hud button.primary { background: var(--orange); color: var(--plum-dark); }
+#hud button.primary:hover:not(:disabled) { background: #f2bb85; }
+#btn-auto.on { background: var(--plum); color: var(--cream-light); border-color: #1f1022; }
+#wave-bar { height: 10px; background: var(--plum); border-radius: 0; border: 2px solid #1f1022; }
+#wave-bar i { background: var(--orange); }
+#hud[data-danger="1"] { box-shadow: inset 0 -3px 0 var(--orange); }
+#hud[data-danger="2"] { box-shadow: inset 0 -3px 0 #e8604c; background: #4a1d2a; }
+
+/* Máu thành: nhãn, con số và vạch đầy; không chỉ dựa vào màu. */
+#hud .castle-health { --ratio: 1; --health-color: #9fdaa9; position: relative; min-width: 120px; padding-bottom: 9px; border-color: var(--health-color); }
+#hud .castle-health::after { content: ''; position: absolute; left: 6px; bottom: 3px; height: 4px; width: calc((100% - 12px) * var(--ratio)); background: var(--health-color); }
+#hud .castle-health #hud-lives { font-size: 18px; color: var(--health-color); }
+#hud .castle-health[data-level="warning"] { --health-color: #ffd27a; }
+#hud .castle-health[data-level="critical"] { --health-color: #ff9a8a; background: #6b2433; }
+
+#stage { background: var(--plum-dark); }
+#cv { border-radius: 0; outline: 4px solid #1f1022; box-shadow: 8px 12px 0 rgb(31 16 34 / 45%); }
+#banner { background: var(--cream); color: var(--plum-dark); border: 4px solid var(--plum-dark); border-radius: 0; box-shadow: 0 4px 0 var(--plum-dark); }
+
+/* Thanh bên: nền kem, tiêu đề tím, bảng có viền dày. */
+#side { background: var(--cream); border-left: 4px solid #1f1022; }
+#side h3 { color: var(--plum); font-size: 12px; font-weight: 900; letter-spacing: .1em; }
+.tbtn { background: var(--cream-light); padding: 5px 2px; }
+.tbtn .key { color: var(--muted); }
+.tbtn.active, .map-card.active, .diff-list button.active, .mod-list button.active { background: var(--orange); outline: none; }
+.tbtn.poor .cost { color: var(--danger); }
+.abtn.active { background: var(--orange); outline: none; }
+.abtn .cdv { background: rgba(61, 33, 65, .35); }
+.panel { background: var(--cream-light); border: 3px solid var(--plum-dark); border-radius: 0; color: var(--plum-dark); }
+.panel .advice { background: #f8e3c6; border-left-color: var(--orange-dark); border-radius: 0; }
+.wave-chip { background: var(--cream); border: 2px solid var(--plum-dark); border-radius: 0; }
+
+/* Lớp phủ và thẻ: kem trên nền tím mờ, viền dày, bóng đổ lệch giống panel EyeTank. */
+.overlay { background: rgba(61, 33, 65, .72); }
+.card { background: var(--cream); color: var(--plum-dark); border: 4px solid var(--plum-dark); border-radius: 0; box-shadow: 0 4px 0 var(--plum-dark), 8px 12px 0 rgb(31 16 34 / 45%); }
+.card h1 { font-size: clamp(42px, 7vw, 60px); line-height: 1; font-weight: 900; letter-spacing: -1px; color: var(--plum); }
+.card h1 span { color: var(--orange-dark); }
+.card h1 img { width: .95em; height: .95em; margin-right: .12em; vertical-align: -.12em; object-fit: contain; }
+@media (prefers-reduced-motion: no-preference) { .card h1 img { animation: lumi 2.6s ease-in-out infinite; } }
+@keyframes lumi { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-5px) rotate(3deg); } }
+.card h2 { font-size: 28px; font-weight: 900; color: var(--plum); }
+.card h4 { color: var(--plum); font-weight: 900; }
+.card.menu > .sub { max-width: 540px; margin: 10px auto 16px; font-weight: 500; }
+.card .help { color: var(--muted); }
+.map-card { background: var(--cream-light); }
+.map-card canvas { border-radius: 0; border: 2px solid var(--plum-dark); }
+.map-card .reroll, .map-card .lock { background: var(--cream); color: var(--plum-dark); border: 2px solid var(--plum-dark); border-radius: 0; box-shadow: none; }
+.map-card .reroll:hover { background: var(--orange); }
+#btn-daily { background: var(--pink); border-color: var(--plum-dark); }
+#btn-daily:hover { background: #f6c6c1; }
+#btn-daily small { color: var(--plum); margin-left: 4px; }
+.mod-list button small { color: var(--gold); }
+.pause-info span { display: grid; background: var(--cream-light); border: 2px solid var(--plum-dark); border-radius: 0; padding: 4px 10px; text-align: center; }
+.pause-info small { font-size: 10px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.vol input { accent-color: var(--plum); }
+table.keys td { border-bottom-color: rgba(61, 33, 65, .2); }
+
+.ach, .book .entry, .lifetime div, .daily-hist, .top10 { background: var(--cream-light); border: 2px solid var(--plum-dark); border-radius: 0; }
+.ach.got { background: var(--orange); border-color: var(--plum-dark); }
+.book .tags { color: var(--plum); }
+.daily-hist .col i { background: var(--orange-dark); border-radius: 0; }
+.daily-hist .col.today i { background: var(--plum); }
+.toast { background: var(--cream); color: var(--plum-dark); border: 3px solid var(--plum-dark); border-radius: 0; box-shadow: 0 3px 0 var(--plum-dark); }
+.leak-life .bar { background: rgba(61, 33, 65, .15); border-radius: 0; }
+.leak-life .bar i { background: #c4453a; }
+.dmg-chart .bar i { border-radius: 0; }
+
+#editor-bar { background: var(--cream); color: var(--plum-dark); border: 4px solid var(--plum-dark); border-radius: 0; }
+#editor-msg.err { color: var(--danger); }
+.copy-box { background: var(--cream-light); color: var(--plum-dark); border: 2px solid var(--plum-dark); border-radius: 0; }
+#ed-side .ed-row { border-bottom-color: rgba(61, 33, 65, .2); }
+
+/* Huy hiệu tình hình trên chiến trường: thẻ tím, đổi sang cam/đỏ khi nguy. */
+#siege-status { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); z-index: 2; pointer-events: none; max-width: calc(100% - 32px); padding: 5px 12px; border: 3px solid #1f1022; background: var(--plum-dark); color: var(--cream); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-align: center; box-shadow: 0 3px 0 #1f1022; }
+#siege-status[data-level="1"] { background: var(--orange); color: var(--plum-dark); }
+#siege-status[data-level="2"] { background: #c4453a; color: #fff6df; }
 body.editing #siege-status { display: none; }
-@media (max-width: 800px) { #siege-status { top: 12px; font-size: 9px; padding: 4px 8px; letter-spacing: .6px; } }
+
+@media (max-width: 800px) {
+  #brand { width: 40px; height: 40px; }
+  #hud { padding: 4px 6px 4px 54px; }
+  #hud .wordmark { display: none; }
+  #hud .stat { min-width: 0; padding: 2px 7px; font-size: 14px; }
+  #hud .castle-health { min-width: 96px; }
+  #hud button { min-height: 32px; padding: 3px 7px; font-size: 12px; }
+  /* Dòng 1: số liệu cạnh logo. Dòng 2: các nút, sát mép trái, không thụt theo logo. */
+  #hud .spacer { display: block; flex: 0 0 100%; height: 0; }
+  #btn-wave { margin-left: -48px; flex: 0 1 auto; }
+  #side { border-left: 0; border-top: 4px solid #1f1022; }
+  #siege-status { top: 10px; font-size: 9px; padding: 3px 8px; }
+}
+@media (max-height: 560px) and (min-width: 801px) { #hud .wordmark { display: none; } #brand { width: 40px; height: 40px; box-shadow: none; } #hud { padding-left: 56px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }

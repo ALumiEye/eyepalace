@@ -164,7 +164,7 @@ const App = {
     const mul = 1 + [...this.menuMods].reduce((a, k) => a + MODIFIERS[k].score, 0);
     $('mod-mul').textContent = this.menuMods.has('sandbox') ? '(không tính điểm)' : this.menuMods.size ? `(điểm x${mul.toFixed(2)})` : '';
     const D = this.dailyInfo(), db = store.num('daily.' + D.key, 0, 0);
-    $('btn-daily').innerHTML = `📅 Thử thách hôm nay <small>${D.mods.map(k => MODIFIERS[k].icon).join('')}${db ? ' · 🏆 ' + db.toLocaleString('vi-VN') : ''}</small>`;
+    $('btn-daily').innerHTML = `Thử thách hôm nay <small>${D.mods.map(k => MODIFIERS[k].name).join(' · ')}${db ? ' · kỷ lục ' + db.toLocaleString('vi-VN') : ''}</small>`;
     $('btn-daily').title = 'Bản đồ ngẫu nhiên của ngày ' + D.label + ' với: ' + D.mods.map(k => MODIFIERS[k].name).join(', ');
     let sv = store.get('save', null);
     if (sv && !Game.validSave(sv)) { store.del('save'); sv = null; }
@@ -439,7 +439,7 @@ const App = {
   },
   showEnd(won) {
     const g = this.game;
-    $('end-title').textContent = g.sandbox ? (won ? '🧪 Hoàn thành thử nghiệm' : '🧪 Kết thúc thử nghiệm') : won ? '🏆 Chiến thắng! ' + '⭐'.repeat(this.lastStars || 1) : '💀 Cung điện thất thủ';
+    $('end-title').textContent = g.sandbox ? (won ? 'Hoàn thành thử nghiệm' : 'Kết thúc thử nghiệm') : won ? 'Chiến thắng! ' + '★'.repeat(this.lastStars || 1) : 'Thành đã thất thủ';
     const S = this.recordScore();
     const modTxt = g.mods.size ? ' · ' + [...g.mods].map(k => MODIFIERS[k].icon).join('') : '';
     $('end-text').innerHTML = `<div class="score">Điểm: <b>${S.sc.toLocaleString('vi-VN')}</b>${S.isNew ? ' 🎉 Kỷ lục mới!' : ` (kỷ lục ${S.best.toLocaleString('vi-VN')})`}${modTxt}</div>` + (won ? `Bạn đã trụ vững qua ${GOAL_WAVE} đợt quái!` : `Bạn trụ được tới đợt <b>${g.wave}</b>.`) +
@@ -801,7 +801,7 @@ const App = {
   },
   setLowFx(on, auto) {
     LOW_FX.on = on; store.set('lowfx', on);
-    $('btn-lowfx').textContent = '✨ Hiệu ứng: ' + (on ? 'Thấp' : 'Cao');
+    $('btn-lowfx').textContent = 'Hiệu ứng: ' + (on ? 'Thấp' : 'Cao');
     if (auto) this.toast('🐢 Máy hơi chậm – đã tự chuyển sang <b>hiệu ứng thấp</b>.<br><small>Đổi lại trong menu tạm dừng.</small>');
   },
   // Theo dõi FPS: nếu trung bình > 28ms/khung trong 4 giây thì tự bật hiệu ứng thấp (1 lần)
@@ -839,10 +839,11 @@ const App = {
     $('overlay-pause').classList.toggle('hidden', !this.paused); this.updateHud();
     if (this.paused) {
       const g = this.game, m = Math.floor(g.time / 60), sec = Math.floor(g.time % 60);
-      const items = [['🗺', MAPS[g.mapIndex].name], ['🌊', 'Đợt ' + g.wave + (g.endless ? ' (vô tận)' : ' / ' + GOAL_WAVE)], ['⭐', 'Điểm ' + g.score.toLocaleString('vi-VN')],
-        ['❤️', g.lives + ' / ' + g.maxLives], ['⚔️', g.stats.kills.toLocaleString('vi-VN') + ' quái'], ['⏱', `${m}:${String(sec).padStart(2, '0')}`]];
-      $('pause-info').innerHTML = items.map(([i, t]) => `<span>${i} ${t}</span>`).join('') +
-        (g.mods.size ? `<span>${[...g.mods].map(k => MODIFIERS[k].icon + ' ' + MODIFIERS[k].name).join(' · ')}</span>` : '');
+      // Nhãn chữ thay biểu tượng cảm xúc, cùng kiểu thẻ số liệu với EyeTank/EyeRush.
+      const items = [['Bản đồ', MAPS[g.mapIndex].name], ['Đợt', g.wave + (g.endless ? ' (vô tận)' : ' / ' + GOAL_WAVE)], ['Điểm', g.score.toLocaleString('vi-VN')],
+        ['Máu thành', g.lives + ' / ' + g.maxLives], ['Đã hạ', g.stats.kills.toLocaleString('vi-VN') + ' quái'], ['Thời gian', `${m}:${String(sec).padStart(2, '0')}`]];
+      $('pause-info').innerHTML = items.map(([i, t]) => `<span><small>${i}</small>${t}</span>`).join('') +
+        (g.mods.size ? `<span><small>Thử thách</small>${[...g.mods].map(k => MODIFIERS[k].name).join(' · ')}</span>` : '');
     }
   },
   toggleMusic() {
@@ -851,7 +852,7 @@ const App = {
     this.updateSoundBtn();
   },
   updateSoundBtn() {
-    if ($('btn-music')) $('btn-music').style.opacity = store.bool('music', true) ? 1 : 0.4; $('btn-sound').textContent = Sound.muted ? '🔇' : '🔊'; },
+    if ($('btn-music')) $('btn-music').style.opacity = store.bool('music', true) ? 1 : 0.4; $('btn-sound').textContent = Sound.muted ? 'Âm: Tắt' : 'Âm: Bật'; },
 
   // ---------- Vòng lặp ----------
   // Luôn hẹn khung kế tiếp kể cả khi một khung bị lỗi, để game không bị đơ vĩnh viễn
@@ -907,6 +908,7 @@ const App = {
     $('hud-lives').textContent = g.lives + ' / ' + g.maxLives;
     const health = $('hud-lives').parentElement, ratio = Math.max(0, Math.min(1, g.lives / g.maxLives));
     health.style.setProperty('--health', (ratio * 100) + '%');
+    health.style.setProperty('--ratio', ratio);
     health.dataset.level = ratio <= 0.3 ? 'critical' : ratio <= 0.6 ? 'warning' : 'healthy';
     health.setAttribute('aria-valuenow', g.lives);
     health.setAttribute('aria-valuemax', g.maxLives);

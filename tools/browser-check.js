@@ -36,6 +36,8 @@ const check = (ok, label) => { if (!ok) throw new Error(label); console.log('✓
       return size && Math.abs(size[0] / size[1] - r.lumi.naturalWidth / r.lumi.naturalHeight) < 1e-9;
     });
     check(lumiRatioOK, 'Lumi được vẽ đúng tỷ lệ ảnh gốc, không kéo dọc/ngang');
+    await page.waitForFunction(() => document.getElementById('brand').naturalWidth > 0);
+    check(await page.evaluate(() => { const b = document.getElementById('brand'), r = b.getBoundingClientRect(); return b.alt === 'ALumiEye' && /alumieye\.png$/.test(b.src) && r.left < 20 && r.top < 20 && getComputedStyle(b).zIndex >= 20; }), 'Logo ALumiEye hiện ở góc trên trái, nằm trên menu');
     await page.screenshot({ path: path.join(root, 'docs/siege-menu.png') });
     await page.click('#btn-play');
     if (await page.locator('#overlay-tut').isVisible()) await page.click('#btn-tut-skip');
@@ -100,6 +102,7 @@ const check = (ok, label) => { if (!ok) throw new Error(label); console.log('✓
     await page.goto(url+'/dist/eyepalace.html');
     await page.waitForFunction(()=>typeof App!=='undefined'&&App.renderer&&App.renderer.lumi.naturalWidth>0);
     check(await page.evaluate(()=>App.renderer.lumi.src.startsWith('data:image/png')), 'Bản một file đã nhúng Lumi');
+    check(await page.evaluate(()=>{const b=document.getElementById('brand');return b.src.startsWith('data:image/png')&&b.naturalWidth>0;}), 'Bản một file đã nhúng logo ALumiEye');
     await page.click('#btn-play');
     if(await page.locator('#overlay-tut').isVisible())await page.click('#btn-tut-skip');
     await page.click('#btn-wave');

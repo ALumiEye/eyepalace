@@ -7,7 +7,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const root = path.join(__dirname, '..');
 const VERSION_SLOT = '<span id="game-version">bản nguồn</span>';
-const SITE = ['index.html', 'style.css', 'sw.js', 'manifest.webmanifest', 'src', 'assets'];
+const SITE = ['index.html', 'style.css', 'sw.js', 'manifest.webmanifest', 'src', 'assets', 'cover.html'];
 
 const escapeHtml = text => String(text).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
@@ -43,6 +43,11 @@ function build(outputRoot = root, version = process.env.GAME_VERSION || 'bản d
   fs.mkdirSync(dist, { recursive: true });
   for (const item of SITE) fs.cpSync(path.join(root, item), path.join(dist, item), { recursive: true });
   fs.writeFileSync(path.join(dist, 'index.html'), index);
+  // cover.html (ảnh bìa cho EyePlay) phải nạp script game cùng phiên bản ?v= như index.html.
+  const scriptsOf = (text) => [...text.matchAll(/<script src="(src\/[^"]+)"><\/script>/g)].map((m) => m[1]);
+  const indexScripts = new Set(scriptsOf(source));
+  const stale = scriptsOf(fs.readFileSync(path.join(root, 'cover.html'), 'utf8')).filter((src) => !indexScripts.has(src));
+  if (stale.length) throw new Error('cover.html nạp script khác index.html (sai ?v= hoặc file lạ): ' + stale.join(', '));
   fs.writeFileSync(path.join(dist, '.nojekyll'), '');
   const { html, count } = single(index);
   const releaseFile = path.join(dist, 'eyepalace.html');

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280, initial-scale=1">
+<title>Eye Palace · ảnh bìa</title>
+<link rel="icon" href="assets/favicon.png">
+<!-- Ảnh bìa cho EyePlay: một trận thủ thành thật do chính game chạy và vẽ (Game + Renderer),
+     không menu, không HUD. EyePlay mở trang này ở khung 1280×800, chờ window.coverReady rồi chụp. -->
+<style>
+  html, body { margin: 0; width: 1280px; height: 800px; overflow: hidden; background: #1b1420; }
+  #field { position: absolute; top: 0; left: -53px; }
+  #title {
+    position: absolute; left: 36px; bottom: 36px; display: flex; align-items: center; gap: 14px;
+    padding: 12px 24px 14px 16px; background: #efe3cc; border: 4px solid #3d2141;
+    box-shadow: 0 4px 0 #3d2141, 10px 14px 0 rgb(27 20 32 / 55%);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  #title img { height: 92px; width: auto; }
+  #title h1 { margin: 0; font-size: 84px; line-height: 1; font-weight: 900; letter-spacing: -2px; color: #59325d; }
+  #title h1 span { color: #cf8549; }
+  #title p { margin: 6px 0 0; font-size: 20px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #cf8549; }
+</style>
+</head>
+<body>
+<!-- Bản đồ 960×576 (5:3) vẽ cao 800 px, rộng 1333 px; cắt mép trái để thấy trọn thành Lumi bên phải. -->
+<canvas id="field" width="1333" height="800"></canvas>
+<div id="title" hidden><img src="assets/lumi.png" alt=""><div><h1>Eye<span>Palace</span></h1><p>Chiến thuật · giữ thành Lumi</p></div></div>
+<script src="src/config.js?v=112"></script>
+<script src="src/maps.js?v=112"></script>
+<script src="src/entities.js?v=112"></script>
+<script src="src/waves.js?v=112"></script>
+<script src="src/game.js?v=112"></script>
+<script src="src/render.js?v=112"></script>
+<script>
+'use strict';
+(async () => {
+  const MAP = 0;                 // Đồng Cỏ Xanh: đường uốn lượn dễ nhìn
+  const g = new Game(MAP, 'normal');
+  g.gold = 1e6;
+  // Đặt tháp các loại dọc hai bên đường (ô cỏ sát đường), rải đều theo chiều dài bản đồ.
+  const nearPath = [];
+  for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
+    if (!g.canPlace(x, y)) continue;
+    const touch = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => g.map.grid[y + dy] && g.map.grid[y + dy][x + dx] === 1);
+    if (touch) nearPath.push([x, y]);
+  }
+  nearPath.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const step = Math.max(1, Math.floor(nearPath.length / 7));
+  let k = 0;
+  for (let i = Math.floor(step / 2); i < nearPath.length && k < 7; i += step, k++) {
+    g.build(TOWER_ORDER[k % TOWER_ORDER.length], nearPath[i][0], nearPath[i][1]);
+  }
+  // Đợt quái đông (từ đợt 7), gọi liên tục; bỏ đợt có trùm (thanh máu trùm che cảnh).
+  // Dừng khi quái đã dàn trải dọc đường: đông và con đầu đã đi được hơn nửa đường.
+  g.wave = 6;
+  const pathLen = g.paths[0].len || g.paths[0].length || 1;
+  const alive = () => g.enemies.filter((e) => e.alive && !e.d.boss);
+  for (let i = 0; i < 60 * 60; i++) {
+    if (g.canCallWave()) g.startWave();
+    g.update(1 / 60);
+    for (const e of g.enemies) if (e.d.boss) e.alive = false;
+    const list = alive();
+    const lead = Math.max(0, ...list.map((e) => e.dist));
+    if (i > 60 * 8 && list.length >= 12 && lead > pathLen * 0.55) break;
+  }
+  g.enemies = g.enemies.filter((e) => e.alive);
+  g.fx.texts.length = 0;           // bỏ chữ nổi (vàng, "Gọi sớm"...)
+  const field = document.getElementById('field');
+  const r = new Renderer(field);
+  r.scale = field.height / H;
+  if (!r.lumi.complete) await new Promise((ok) => { r.lumi.onload = ok; r.lumi.onerror = ok; });
+  r.draw(g, {}, 0);
+  document.getElementById('title').hidden = false;
+  await new Promise((ok) => requestAnimationFrame(() => requestAnimationFrame(ok)));
+  window.coverReady = true;
+})();
+</script>
+</body>
+</html>

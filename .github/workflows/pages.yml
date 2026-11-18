@@ -17,6 +17,8 @@ concurrency:
 
 jobs:
   build:
+    # Bộ khung chung cho mọi repo game: repo private thì bỏ qua (chỉ game công bố mới lên Pages).
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
